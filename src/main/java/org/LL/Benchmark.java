@@ -1,11 +1,55 @@
 package org.LL;
 
 import BinaryTree.Tree;
+import Util.BinarySearch;
 
 import java.util.Arrays;
 import java.util.Random;
 
 public class Benchmark {
+
+    private static void betterMergeSort (double[] array){
+        if (array.length == 0) {
+            return;
+        }
+        double[] auxArray = new double[array.length];
+        for (int i = 0; i < array.length; i++)
+            auxArray[i] = array[i];
+
+        betterSort(array,auxArray,0,array.length-1);
+    }
+    private static void betterSort(double[] array, double[] auxArray, int from, int to) {
+        if( from != to){
+            int mid = (from + to) / 2;
+            betterSort(auxArray, array, from, mid);
+            betterSort(auxArray, array, mid+1, to);
+            betterMerge(array, auxArray, from, mid, to);
+        }
+    }
+
+    private static void betterMerge(double[] array, double[] auxArray, int from, int mid, int to) {
+
+        int i = from;
+        int j = mid +1;
+        for( int k = from; k<= to; k++){
+            if (i > mid){
+                array[k] = auxArray[j];
+                j++;
+            }
+            else if (j > to) {
+                array[k] = auxArray[i];
+                i++;
+            }
+            else if (auxArray[i] < auxArray[j]) {
+                array[k]= auxArray[i];
+                i++;
+            }
+            else{
+                array[k] = auxArray[j];
+                j++;
+            }
+        }
+    }
     public static void benchmarkLists(int elements, int stat){
         int k = 1000;
         double[] times = new double[k];
@@ -45,7 +89,7 @@ public class Benchmark {
         double median;
         System.out.printf("%d", elements);
 
-/*
+
         //appending
         minTime = Double.MAX_VALUE;
         median = 0;
@@ -138,8 +182,8 @@ public class Benchmark {
         betterMergeSort(times);
         median = times[times.length/2];
         System.out.printf("%13.1f %6.1f", minTime/loop, median);
-*/
-        int loop = 1000;
+
+        loop = 1000;
         // single unlink
         minTime = Double.MAX_VALUE;
         for (int j = 0; j < loop; j++) {
@@ -185,54 +229,12 @@ public class Benchmark {
         median = times[times.length/2];
         System.out.printf("%13.1f %6.1f\n", minTime/loop, median);
     }
-
-    private static void betterMergeSort (double[] array){
-        if (array.length == 0) {
-            return;
-        }
-        double[] auxArray = new double[array.length];
-        for (int i = 0; i < array.length; i++)
-            auxArray[i] = array[i];
-
-        betterSort(array,auxArray,0,array.length-1);
-    }
-    private static void betterSort(double[] array, double[] auxArray, int from, int to) {
-        if( from != to){
-            int mid = (from + to) / 2;
-            betterSort(auxArray, array, from, mid);
-            betterSort(auxArray, array, mid+1, to);
-            betterMerge(array, auxArray, from, mid, to);
-        }
-    }
-
-    private static void betterMerge(double[] array, double[] auxArray, int from, int mid, int to) {
-
-        int i = from;
-        int j = mid +1;
-        for( int k = from; k<= to; k++){
-            if (i > mid){
-                array[k] = auxArray[j];
-                j++;
-            }
-            else if (j > to) {
-                array[k] = auxArray[i];
-                i++;
-            }
-            else if (auxArray[i] < auxArray[j]) {
-                array[k]= auxArray[i];
-                i++;
-            }
-            else{
-                array[k] = auxArray[j];
-                j++;
-            }
-        }
-    }
     public static void benchmarkTree(int size){
         Tree tree = new Tree();
         int outerLoop = 1000;
         int innerLoop = 1000;
-        int[] treeIndexes = makeScrambledRandomArray(size);
+        int[] arrayForBinarySearch = sortedArray(size);
+        int[] treeIndexes = scrambleArray(arrayForBinarySearch);
 
         for (int i = 0; i < size; i++) {
             tree.addRecursive(treeIndexes[i], treeIndexes[i]+10);
@@ -252,6 +254,21 @@ public class Benchmark {
 
         double median;
         double[] times = new double[outerLoop];
+
+        for (int i = 0; i < outerLoop; i++) {
+            long start = System.nanoTime();
+            for (int j = 0; j < innerLoop; j++) {
+                BinarySearch.search(arrayForBinarySearch,treeIndexes[j]);
+            }
+            long stop = System.nanoTime();
+
+            times[i]= stop- start;
+        }
+        betterMergeSort(times);
+        median = times[times.length/2];
+        System.out.print(size + "     "+ median/innerLoop + "     \n");
+
+/*
         for (int i = 0; i < outerLoop; i++) {
             long start = System.nanoTime();
             for (int j = 0; j < innerLoop; j++) {
@@ -263,14 +280,9 @@ public class Benchmark {
         }
         betterMergeSort(times);
         median = times[times.length/2];
-        System.out.println(size + "     " + median/innerLoop);
-    }
+        System.out.println(median/innerLoop);
 
-    private static int[] makeScrambledRandomArray(int size){
-        int[] temp = sortedArray(size);
-        temp = scrambleArray(temp);
-        return temp;
-
+ */
     }
 
     private static int[] scrambleArray(int[] array) {
