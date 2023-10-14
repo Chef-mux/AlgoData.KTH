@@ -13,7 +13,7 @@ import java.util.Random;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        System.out.println("size \tAdd \tremove \tboth");
+        System.out.println("size \ttree \tarray ");
         /*for (int i = 2; i < 2000000; i= i*2) {
             BenchHeap.benchmark(i);
         }

@@ -31,9 +31,55 @@ public class BenchHeap {
 
         //benchLists(length,listAndArrayNumbers,sorted);
         //benchLists(length,listAndArrayNumbers,unsorted);
-        benchArray(length,listAndArrayNumbers, array);
+        //benchArray(length,listAndArrayNumbers, array);
         //benchTree(treeNumbers,length);
+        benchTreeVsArray(length);
 
+    }
+
+    private static void benchTreeVsArray(Integer length) {
+        int k = 1000;
+
+        Random random = new Random();
+        int[] numbers = new int[length];
+        for (int i = 0; i < length; i++) {
+            numbers[i] = random.nextInt(10000);
+        }
+        HeapTree tree = new HeapTree();
+        HeapTreeArray array = new HeapTreeArray(length*4);
+
+        double[] times = new double[k];
+        double median;
+
+        for (int i = 0; i < k; i++) {
+            long start = System.nanoTime();
+            for (int j = 0; j < length ; j++) {
+                tree.add(numbers[j]);
+            }
+            for (int j = 0; j < length; j++) {
+                tree.remove();
+            }
+            long stop = System.nanoTime();
+            times[i] = stop-start;
+        }
+        Arrays.sort(times);
+        median = times[times.length/2];
+        System.out.printf("\t%.2f",median/length);
+
+        for (int i = 0; i < k; i++) {
+            long start = System.nanoTime();
+            for (int j = 0; j < length ; j++) {
+                array.add(numbers[j]);
+            }
+            for (int j = 0; j < length; j++) {
+                array.remove();
+            }
+            long stop = System.nanoTime();
+            times[i] = stop-start;
+        }
+        Arrays.sort(times);
+        median = times[times.length/2];
+        System.out.printf("\t%.2f",median/length);
     }
 
     private static void benchLists(int length,Integer[] array, Heap heap){
