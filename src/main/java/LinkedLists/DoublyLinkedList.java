@@ -1,4 +1,4 @@
-package org.LL;
+package LinkedLists;
 
 public class DoublyLinkedList {
     Cell first;

@@ -1,6 +1,6 @@
-package org.LL;
+package LinkedLists;
 
-import BinaryTree.Tree;
+import BinaryTree.BinaryTree;
 import Util.BinarySearch;
 
 import java.util.Arrays;
@@ -230,14 +230,14 @@ public class Benchmark {
         System.out.printf("%13.1f %6.1f\n", minTime/loop, median);
     }
     public static void benchmarkTree(int size){
-        Tree tree = new Tree();
+        BinaryTree binaryTree = new BinaryTree();
         int outerLoop = 1000;
         int innerLoop = 1000;
         int[] arrayForBinarySearch = sortedArray(size);
         int[] treeIndexes = scrambleArray(arrayForBinarySearch);
 
         for (int i = 0; i < size; i++) {
-            tree.addRecursive(treeIndexes[i], treeIndexes[i]+10);
+            binaryTree.addRecursive(treeIndexes[i], treeIndexes[i]+10);
         }
         if (size < innerLoop) {
             Arrays.sort(treeIndexes);
@@ -272,7 +272,7 @@ public class Benchmark {
         for (int i = 0; i < outerLoop; i++) {
             long start = System.nanoTime();
             for (int j = 0; j < innerLoop; j++) {
-                tree.lookUpRecursive(treeIndexes[j]);
+                binaryTree.lookUpRecursive(treeIndexes[j]);
             }
             long stop = System.nanoTime();
 

@@ -1,4 +1,4 @@
-package Util;
+package LinkedLists;
 
 public class ListStack<E> {
 

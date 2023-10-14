@@ -2,12 +2,12 @@ package BinaryTree;
 
 
 
-class Node {
+class BinaryTreeNode {
     Integer key;
     Integer value;
-    Node left, right;
+    BinaryTreeNode left, right;
 
-    Node(Integer key, Integer value) {
+    BinaryTreeNode(Integer key, Integer value) {
         this.key = key;
         this.value = value;
         left = null;
@@ -19,13 +19,13 @@ class Node {
             this.value = value;
         } else if (key > this.key) {
             if (this.right == null) {
-                this.right = new Node(key, value);
+                this.right = new BinaryTreeNode(key, value);
             } else {
                 this.right.addRecursive(key, value);
             }
         } else {
             if (this.left == null) {
-                this.left = new Node(key, value);
+                this.left = new BinaryTreeNode(key, value);
             } else {
                 this.left.addRecursive(key, value);
             }
@@ -33,14 +33,14 @@ class Node {
     }
 
     void addIterative(Integer key, Integer value) {
-        Node current = this;
+        BinaryTreeNode current = this;
         while (true) {
             if (key.equals(current.key)) {
                 current.value = value;
             }
             else if (key > current.key) {
                 if (current.right == null) {
-                    current.right = new Node(key, value);
+                    current.right = new BinaryTreeNode(key, value);
                     break;
                 } else {
                     current = current.right;
@@ -48,7 +48,7 @@ class Node {
             }
             else {
                 if (current.left == null) {
-                    current.left = new Node(key, value);
+                    current.left = new BinaryTreeNode(key, value);
                     break;
                 }
                 else {

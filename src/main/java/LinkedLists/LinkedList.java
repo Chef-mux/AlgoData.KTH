@@ -1,4 +1,4 @@
-package org.LL;
+package LinkedLists;
 
 public class LinkedList {
     Cell first;
@@ -125,5 +125,9 @@ public class LinkedList {
         Cell cell = first;
         first = first.tail;
         return cell.head;
+    }
+
+    public static void qSort (LinkedList list){
+        
     }
 }

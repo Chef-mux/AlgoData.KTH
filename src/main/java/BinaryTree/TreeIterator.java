@@ -1,15 +1,15 @@
 package BinaryTree;
 
-import Util.ListStack;
+import LinkedLists.ListStack;
 
 import java.util.Iterator;
 
 
 class TreeIterator implements Iterator {
-    private Node next;
-    private ListStack <Node> stack;
+    private BinaryTreeNode next;
+    private ListStack<BinaryTreeNode> stack;
 
-    public TreeIterator (Tree tree){
+    TreeIterator(BinaryTree tree) {
         stack = new ListStack<>();
         next = tree.root;
         next = goLeft(next);
@@ -22,7 +22,7 @@ class TreeIterator implements Iterator {
 
     @Override
     public Object next() {
-        Node temp = next;
+        BinaryTreeNode temp = next;
         if (next.right != null)
             next = goLeft(next.right);
         else
@@ -34,11 +34,12 @@ class TreeIterator implements Iterator {
     public void remove() {
         throw new UnsupportedOperationException();
     }
-    private Node goLeft(Node node){
-        while (node.left != null) {
-            stack.push(node);
-            node = node.left;
+
+    private BinaryTreeNode goLeft(BinaryTreeNode binaryTreeNode) {
+        while (binaryTreeNode.left != null) {
+            stack.push(binaryTreeNode);
+            binaryTreeNode = binaryTreeNode.left;
         }
-        return node;
+        return binaryTreeNode;
     }
 }
